@@ -1,83 +1,77 @@
-#include <iostream>
-#include <SDL2/SDL.h>
-#include "chessboard.hpp"
+﻿#include "chessboard.h"
 
 namespace chessgui {
-  enum Color {
-    WHITE,
-    BLACK
-  };
 
-  struct Coordinate {
-    int row;
-    int col;
-  };
+  Chessboard::Handler Chessboard::handler = Chessboard::Handler();
 
-  /* TODO :
-     Initialize all the pieces
-  */
+  Chessboard& Chessboard::getChessboard(){
+    if (handler.instance == nullptr)
+      handler.instance = new Chessboard;
+    return *handler.instance;
+  }
 
-  class Chessboard {
-  private:
-    int row = 8;
-    int col = 8;
-    Pieces ** tabPieces;
+  void Chessboard::releaseChessboard() {
+    delete handler.instance;
+    handler.instance = nullptr;
+  }
 
-    Chessboard();
-    ~Chessboard();
+  /* TODO */
+  void initializeBoard(const std::string chessMode);
 
-    struct Handler {
-      Chessboard* instance = nullptr;
-      ~Handler() { delete instance; }
-    };
-    static Handler handler;
-  public:
-    static Chessboard& getChessboard();
-    static void releaseChessboard();
-    void initializeBoard(const std::string chessMode);
-  };
+  bool allowedMove(Coordinate& c);
 
-  class Pieces {
-    std::string name = "";
-    Color color = 0;
-    Coordinate coord;
+  void Pawn::move(Coordinate& c){
+    if (allowedMove(c)){
+        std::cout << "P" << c.col << c.row << std::endl;
+      } else {
+        std::cout << "Move forbidden" << std::endl;
+        // BELL
+      }
+  }
 
-    Pieces();
-    ~Pieces();
-    // friend class Chessboard;
-  public:
-    virtual void move(Coordinate& c);
-    bool allowedMove(Coordinate& c);
-  };
+  void Bishop::move(Coordinate& c){
+    if (allowedMove(c)){
+        std::cout << "P" << c.col << c.row << std::endl;
+      } else {
+        std::cout << "Move forbidden" << std::endl;
+        // BELL
+      }
+  }
 
-  class Pawn : public Pieces {
-    int firstMove = 1;
-  public:
-    void move(Coordinate& c);
-  };
+  void Knight::move(Coordinate& c){
+    if (allowedMove(c)){
+        std::cout << "P" << c.col << c.row << std::endl;
+      } else {
+        std::cout << "Move forbidden" << std::endl;
+        // BELL
+      }
+  }
 
-  class Bishop : public Pieces {
-  public:
-    void move(Coordinate& c);
-  };
+  void Rook::move(Coordinate& c){
+    if (allowedMove(c)){
+        std::cout << "P" << c.col << c.row << std::endl;
+      } else {
+        std::cout << "Move forbidden" << std::endl;
+        // BELL
+      }
+  }
 
-  class Knight : public Pieces {
-  public:
-    void move(Coordinate& c);
-  };
+  void Queen::move(Coordinate& c){
+    if (allowedMove(c)){
+        std::cout << "P" << c.col << c.row << std::endl;
+      } else {
+        std::cout << "Move forbidden" << std::endl;
+        // BELL
+      }
+  }
 
-  class Rook : public Pieces {
-  public:
-    void move(Coordinate& c);
-  };
+  void King::move(Coordinate& c){
+    if (allowedMove(c)){
+        std::cout << "P" << c.col << c.row << std::endl;
+      } else {
+        std::cout << "Move forbidden" << std::endl;
+        // BELL
+      }
+  }
 
-  class Queen : public Pieces {
-  public:
-    void move(Coordinate& c);
-  };
-
-  class King : public Pieces {
-  public:
-    void move(Coordinate& c);
-  };
 }
